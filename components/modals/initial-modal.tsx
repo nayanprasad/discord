@@ -1,5 +1,5 @@
 "use client"
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {useForm} from "react-hook-form";
 import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -16,6 +16,12 @@ const formSchema = z.object({
 
 const InitialModal = () => {
 
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -28,6 +34,9 @@ const InitialModal = () => {
         e.preventDefault();
         console.log("submit");
     }
+
+    if(!isMounted)
+        return null;
 
     return (
         <Fragment>
