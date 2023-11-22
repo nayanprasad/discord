@@ -33,7 +33,22 @@ const InitialModal = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log("submit");
+        try {
+            await form.clearErrors();
+            const values = await form.getValues();
+
+            if(!values.imageUrl)
+                await form.setError("imageUrl", {message: "Server image is required."});
+            if(!values.name)
+                await form.control.setError("name", {message: "Server name is required."});
+            if(!values.imageUrl || !values.name)
+                return;
+
+            console.log(values);
+
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     if (!isMounted)
@@ -59,6 +74,9 @@ const InitialModal = () => {
                                 name={"imageUrl"}
                                 render={({field}) => (
                                     <FormItem>
+                                        <FormLabel>
+                                            Upload an image
+                                        </FormLabel>
                                         <FormControl>
                                             <FileUpload
                                                 endpoint="serverImage"
@@ -66,7 +84,7 @@ const InitialModal = () => {
                                                 onChange={field.onChange}
                                             />
                                         </FormControl>
-                                        <FormMessage/>
+                                        {/*<FormMessage/>*/}
                                     </FormItem>
                                 )}
                             />
@@ -84,7 +102,7 @@ const InitialModal = () => {
                                                    {...field}
                                             />
                                         </FormControl>
-                                        <FormMessage />
+                                        {/*<FormMessage/>*/}
                                     </FormItem>
                                 )}
                             />
