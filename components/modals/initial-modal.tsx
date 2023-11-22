@@ -1,5 +1,6 @@
 "use client"
 import React, {Fragment, useEffect} from 'react';
+import axios from "axios";
 import {useForm} from "react-hook-form";
 import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -8,6 +9,7 @@ import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,} fr
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {FileUpload} from "@/components/file-upload";
+import {useRouter} from "next/navigation";
 
 
 const formSchema = z.object({
@@ -17,6 +19,7 @@ const formSchema = z.object({
 
 const InitialModal = () => {
 
+    const  router = useRouter();
     const [isMounted, setIsMounted] = React.useState(false);
 
     useEffect(() => {
@@ -34,17 +37,20 @@ const InitialModal = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await form.clearErrors();
-            const values = await form.getValues();
+            form.clearErrors();
+            const values = form.getValues();
 
             if(!values.imageUrl)
-                await form.setError("imageUrl", {message: "Server image is required."});
+                form.setError("imageUrl", {message: "Server image is required."});
             if(!values.name)
-                await form.control.setError("name", {message: "Server name is required."});
+                form.control.setError("name", {message: "Server name is required."});
             if(!values.imageUrl || !values.name)
                 return;
 
-            console.log(values);
+            const {data} = await axios.post("/api/servers", values);
+
+            form.reset();
+            router.refresh();
 
         } catch (e) {
             console.log(e);
@@ -78,11 +84,14 @@ const InitialModal = () => {
                                             Upload an image
                                         </FormLabel>
                                         <FormControl>
-                                            <FileUpload
-                                                endpoint="serverImage"
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                            />
+                                            <div className="flex justify-center items-center">
+                                                <FileUpload
+                                                    endpoint="serverImage"
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                />
+                                            </div>
+
                                         </FormControl>
                                         {/*<FormMessage/>*/}
                                     </FormItem>
@@ -98,7 +107,7 @@ const InitialModal = () => {
                                         </FormLabel>
                                         <FormControl>
                                             <Input className="dark:bg-[#101012]"
-                                                   placeholder={"Enter a server name"}
+                                                   placeholder={"Enter a servers name"}
                                                    {...field}
                                             />
                                         </FormControl>
