@@ -7,12 +7,13 @@ import {Form, FormControl, FormField, FormLabel, FormItem, FormMessage} from "@/
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
+import {FileUpload} from "@/components/file-upload";
+
 
 const formSchema = z.object({
-    name: z.string().min(3, {message: "Name must be at least 3 characters long"}),
-    imageUrl: z.string().url({message: "Must be a valid URL"}),
+    name: z.string().min(1, {message: "Server name is required."}),
+    imageUrl: z.string().min(1, {message: "Server image is required."})
 });
-
 
 const InitialModal = () => {
 
@@ -35,7 +36,7 @@ const InitialModal = () => {
         console.log("submit");
     }
 
-    if(!isMounted)
+    if (!isMounted)
         return null;
 
     return (
@@ -55,6 +56,22 @@ const InitialModal = () => {
                         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                             <FormField
                                 control={form.control}
+                                name={"imageUrl"}
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <FileUpload
+                                                endpoint="serverImage"
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage/>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
                                 name={"name"}
                                 render={({field}) => (
                                     <FormItem>
@@ -63,28 +80,14 @@ const InitialModal = () => {
                                         </FormLabel>
                                         <FormControl>
                                             <Input className="dark:bg-[#101012]"
+                                                   placeholder={"Enter a server name"}
                                                    {...field}
-                                                placeholder={"Enter a server name"}
                                             />
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name={"imageUrl"}
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            upload image
-                                        </FormLabel>
-                                        <FormControl >
-                                            <Input className="dark:bg-[#101012]" type={"file"}/>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-
                             <Button type={"submit"}>Create</Button>
                         </form>
                     </Form>
