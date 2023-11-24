@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             success: true,
-            message: "server created",
+            message: "servers created",
             server
         }, {status: 201});
 
