@@ -1,7 +1,7 @@
 import {redirect} from "next/navigation";
 import {UserButton} from "@clerk/nextjs";
 import {ScrollArea} from "@/components/ui/scroll-area";
-// import {ModeToggle} from "@/components/theme-toggle";
+import {ModeToggle} from "@/components/theme-toggle";
 import {Separator} from "@/components/ui/separator";
 import {getCurrentProfile} from "@/lib/current-profile"
 import {db} from "@/lib/db";
@@ -10,6 +10,7 @@ import NavigationAction from "@/components/navigation/navigation-action";
 import NavigationItem from "@/components/navigation/navigation-item";
 
 const NavigationSidebar = async () => {
+
     const profile = await getCurrentProfile();
 
     if (!profile) {
@@ -42,8 +43,7 @@ const NavigationSidebar = async () => {
                 ))}
             </ScrollArea>
             <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
-                {/*<ModeToggle />*/}
-
+                <ModeToggle />
                 <UserButton
                     afterSignOutUrl="/"
                     appearance={{
