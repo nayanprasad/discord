@@ -10,7 +10,6 @@ interface ServerIdPageProps {
 const ServerIdPage = ({params}: ServerIdPageProps) => {
     return (
         <div>
-            asdf
             {params.serverId}
         </div>
     );
