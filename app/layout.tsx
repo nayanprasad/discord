@@ -3,6 +3,7 @@ import {Open_Sans} from 'next/font/google'
 import './globals.css'
 import {ClerkProvider} from '@clerk/nextjs'
 import {ThemeProvider} from "@/components/providers/theme-provider";
+import {ModalProviders} from "@/components/providers/modal-providers";
 import {cn} from "@/lib/utils";
 
 
@@ -26,6 +27,7 @@ export default function RootLayout({children,}: { children: React.ReactNode }) {
                 storageKey={"discord-theme"}
                 enableSystem={true}
             >
+                <ModalProviders />
                 {children}
             </ThemeProvider>
             </body>
