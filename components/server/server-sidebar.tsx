@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {redirect} from "next/navigation";
 import {redirectToSignIn} from "@clerk/nextjs";
 import {getCurrentProfile} from "@/lib/current-profile";
@@ -40,11 +40,14 @@ const ServerSidebar = async ({serverId}: { serverId: string }) => {
     if (!server)
         return redirect("/");
 
+
+
     const members = server?.members.filter((member) => member.profileId !== profile.id);
     const role = server?.members.find((member) => member.profileId === profile.id)?.role;
     const textChannels = server?.channels.filter((channel) => channel.type === ChannelType.TEXT);
     const audioChannels = server?.channels.filter((channel) => channel.type === ChannelType.AUDIO);
     const videoChannels = server?.channels.filter((channel) => channel.type === ChannelType.VIDEO);
+
 
 
     return (
