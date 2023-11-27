@@ -18,12 +18,13 @@ const formSchema = z.object({
     imageUrl: z.string().min(1, {message: "Server image is required."})
 });
 
-const CreateServerModal = () => {
+const EditServerModal = () => {
 
     const router = useRouter();
-    const {onClose, type, isOpen} = useModal();
+    const {onClose, type, isOpen, data} = useModal();
+    const {server} = data;
 
-    const isModalOpen = isOpen && type === "CreateServer";
+    const isModalOpen = isOpen && type === "editServer";
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -33,6 +34,12 @@ const CreateServerModal = () => {
         },
     });
 
+    useEffect(() => {
+        if (server) {
+            form.setValue("name", server.name);
+            form.setValue("imageUrl", server.imageUrl);
+        }
+    }, [server, form]);
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
@@ -46,7 +53,7 @@ const CreateServerModal = () => {
             if (!values.imageUrl || !values.name)
                 return;
 
-            const {data} = await axios.post("/api/servers", values);
+            const {data} = await axios.patch(`/api/servers/${server?.id}`, values);
 
             form.reset();
             router.refresh();
@@ -116,7 +123,7 @@ const CreateServerModal = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type={"submit"}>Create</Button>
+                            <Button type={"submit"}>Save</Button>
                         </form>
                     </Form>
                 </DialogContent>
@@ -125,4 +132,4 @@ const CreateServerModal = () => {
     );
 };
 
-export default CreateServerModal;
+export default EditServerModal;
