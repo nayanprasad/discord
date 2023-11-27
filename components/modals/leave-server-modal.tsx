@@ -39,7 +39,7 @@ const LeaveServerModal = () => {
                             Leave Server
                         </DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to leave <span className="font-bold">{server?.name}</span>?
+                            Are you sure you want to leave <span className="text-indigo-500 font-bold">{server?.name}</span>?
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex justify-between">
