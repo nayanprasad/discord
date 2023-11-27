@@ -32,6 +32,7 @@ const Layout = async ({children, params}: {children: React.ReactNode; params: {s
         <div className="h-full">
             <div
                 className="hidden md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
+                {/* @ts-expect-error Async Server Component */}
                 <ServerSidebar serverId={params.serverId} />
             </div>
             <main className="h-full md:pl-60">
