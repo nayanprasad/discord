@@ -8,24 +8,23 @@ import {db} from "@/lib/db";
 
 import NavigationAction from "@/components/navigation/navigation-action";
 import NavigationItem from "@/components/navigation/navigation-item";
+import {useEffect} from "react";
 
 const NavigationSidebar = async () => {
 
     const profile = await getCurrentProfile();
-
-    if (!profile) {
-        return redirect("/");
-    }
-
     const servers = await db.server.findMany({
         where: {
             members: {
                 some: {
-                    profileId: profile.id
+                    profileId: profile?.id
                 }
             }
         }
     });
+
+    if (!profile)
+        return redirect("/");
 
     return (
         <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
