@@ -44,7 +44,10 @@ const Page = async ({params}: PageProps) => {
                 }
             }
         }
-    })
+    });
+
+    if(server)
+        return redirect(`/servers/${server.id}`);
 
     return null
 };
