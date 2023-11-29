@@ -1,18 +1,19 @@
-import {redirect} from "next/navigation";
-import {UserButton} from "@clerk/nextjs";
+import {redirectToSignIn, UserButton} from "@clerk/nextjs";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {ModeToggle} from "@/components/theme-toggle";
 import {Separator} from "@/components/ui/separator";
 import {getCurrentProfile} from "@/lib/current-profile"
 import {db} from "@/lib/db";
-
 import NavigationAction from "@/components/navigation/navigation-action";
 import NavigationItem from "@/components/navigation/navigation-item";
-import {useEffect} from "react";
 
 const NavigationSidebar = async () => {
 
     const profile = await getCurrentProfile();
+
+    if (!profile)
+        return redirectToSignIn();
+
     const servers = await db.server.findMany({
         where: {
             members: {
@@ -22,9 +23,6 @@ const NavigationSidebar = async () => {
             }
         }
     });
-
-    if (!profile)
-        return redirect("/");
 
     return (
         <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
