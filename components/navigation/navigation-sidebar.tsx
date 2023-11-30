@@ -1,4 +1,4 @@
-import {redirectToSignIn, UserButton} from "@clerk/nextjs";
+import {UserButton} from "@clerk/nextjs";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {ModeToggle} from "@/components/theme-toggle";
 import {Separator} from "@/components/ui/separator";
@@ -13,7 +13,7 @@ const NavigationSidebar = async () => {
     const profile = await getCurrentProfile();
 
     if (!profile)
-        return redirectToSignIn()
+        return redirect("/");
 
     const servers = await db.server.findMany({
         where: {
