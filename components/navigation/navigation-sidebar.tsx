@@ -6,13 +6,14 @@ import {getCurrentProfile} from "@/lib/current-profile"
 import {db} from "@/lib/db";
 import NavigationAction from "@/components/navigation/navigation-action";
 import NavigationItem from "@/components/navigation/navigation-item";
+import {redirect} from "next/navigation";
 
 const NavigationSidebar = async () => {
 
     const profile = await getCurrentProfile();
 
     if (!profile)
-        return redirectToSignIn();
+        return redirectToSignIn()
 
     const servers = await db.server.findMany({
         where: {
