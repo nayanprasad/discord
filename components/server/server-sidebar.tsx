@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {redirect} from "next/navigation";
 import {redirectToSignIn} from "@clerk/nextjs";
 import {getCurrentProfile} from "@/lib/current-profile";
@@ -8,6 +8,7 @@ import ServerHeader from "@/components/server/server-header";
 import ServerSearch from "@/components/server/server-search";
 import ServerSection from "@/components/server/server-section";
 import ServerChannel from "@/components/server/server-channel";
+import ServerMember from "@/components/server/server-member";
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Separator} from "@/components/ui/separator";
@@ -122,12 +123,71 @@ const ServerSidebar = async ({serverId}: { serverId: string }) => {
                         />
                         <div className="space-y-[2px]">
                             {textChannels.map((channel) => (
-                                // <ServerChannel
-                                //     // key={channel.id}
-                                //     // channel={channel}
-                                //     // role={role}
-                                //     // server={server}
-                                // />
+                                <ServerChannel
+                                    key={channel.id}
+                                    channel={channel}
+                                    role={role}
+                                    server={server}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
+                {!!audioChannels?.length && (
+                    <div className="mb-2">
+                        <ServerSection
+                            sectionType="channels"
+                            channelType={ChannelType.AUDIO}
+                            role={role}
+                            label="Voice Channels"
+                        />
+                        <div className="space-y-[2px]">
+                            {audioChannels.map((channel) => (
+                                <ServerChannel
+                                    key={channel.id}
+                                    channel={channel}
+                                    role={role}
+                                    server={server}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
+                {!!videoChannels?.length && (
+                    <div className="mb-2">
+                        <ServerSection
+                            sectionType="channels"
+                            channelType={ChannelType.VIDEO}
+                            role={role}
+                            label="Video Channels"
+                        />
+                        <div className="space-y-[2px]">
+                            {videoChannels.map((channel) => (
+                                <ServerChannel
+                                    key={channel.id}
+                                    channel={channel}
+                                    role={role}
+                                    server={server}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
+                {!!members?.length && (
+                    <div className="mb-2">
+                        <ServerSection
+                            sectionType="members"
+                            role={role}
+                            label="Members"
+                            server={server}
+                        />
+                        <div className="space-y-[2px]">
+                            {members.map((member) => (
+                                <ServerMember
+                                    key={member.id}
+                                    member={member}
+                                    server={server}
+                                />
                             ))}
                         </div>
                     </div>
