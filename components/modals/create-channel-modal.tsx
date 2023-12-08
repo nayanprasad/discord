@@ -52,7 +52,13 @@ const CreateChannelModal = () => {
                 return;
 
 
-            const {data} = await axios.post(`/api/channels/${params?.serverId}`, values);
+            const url = qs.stringifyUrl({
+                url: "/api/channels",
+                query: {
+                    serverId: params?.serverId
+                }
+            });
+            await axios.post(url, values);
 
             form.reset();
             router.refresh();
