@@ -38,7 +38,7 @@ const ServerIdPage = async ({params}: ServerIdPageProps) => {
         }
     });
 
-    console.log(server);
+    // console.log(server);
 
 
     const initialChannel = server?.channels[0];
