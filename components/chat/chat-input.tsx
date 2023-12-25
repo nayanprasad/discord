@@ -15,8 +15,7 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {useModal} from "@/hooks/use-modal-store";
-
-// import { EmojiPicker } from "@/components/emoji-picker";
+import EmojiPicker from "@/components/emoji-picker";
 
 interface ChatInputProps {
     apiUrl: string;
@@ -30,7 +29,7 @@ const formSchema = z.object({
 });
 
 const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
-    // const {onOpen} = useModal();
+    const {onOpen} = useModal();
     const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -82,9 +81,9 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                                         {...field}
                                     />
                                     <div className="absolute top-7 right-8">
-                                        {/*<EmojiPicker*/}
-                                        {/*    onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)}*/}
-                                        {/*/>*/}
+                                        <EmojiPicker
+                                            onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)}
+                                        />
                                     </div>
                                 </div>
                             </FormControl>
