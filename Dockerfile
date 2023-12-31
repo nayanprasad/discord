@@ -10,9 +10,7 @@ RUN pnpm install
 
 COPY . .
 
-RUN npx prisma generate
-
 EXPOSE 3000
 EXPOSE 3306
 
-CMD ["sh", "-c", "npx prisma migrate deploy && pnpm run dev"]
+CMD ["sh", "-c", "npx prisma generate && npx prisma db push && pnpm run dev"]
