@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: discord-mysql
+    restart: unless-stopped
+    image: mysql:8.0.26
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./data:/var/lib/mysql/
+    networks:
+      - shared-network
+
+  frontend:
+    container_name: discord-frontend
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
